@@ -1,32 +1,17 @@
-#Main pythin script, so far not used at all. Author: Isak Steingrimsson
+#Main pythin script. Author: Isak Steingrimsson
 import csv
 import pandas
 import numpy
-testFile = open("dataset/test.csv", "r", encoding = "utf8")
-testFileReader = csv.reader(testFile, delimiter = ",")
+import clean2 as cleanse #Cleaning script
+from nltk.corpus import stopwords
 
-#Read csv file to a dataframe data-structure
-df = pandas.read_csv("dataset/test.csv", encoding = "utf8")
-#print(df.head())
-print(df.shape)
+#Setting field size limit to 1mb, else we get field size to large error
+csv.field_size_limit(1000000) 
 
-print(str(df.get("text")))
-#def hello():
- #   t = 45
-  #  strin = "hello world " + str(t)
-   #return strin
+#The set of stopwords, will be used to detect non-english articles and to remove stop words
+stopWords = set(stopwords.words("english"))
+
+#cleanse.firstPassCleanse("dataset/train.csv", "out.csv", stopWords)
 
 
-#print(hello())
-
-#with testFile as File:  
-    #for row in testFileReader:
-        #print(row)
-
-#with open('dataset/test.csv') as File:
-    #reader = csv.reader(File, delimiter=',')
-    #for row in reader:
-        #print(row)
-
-
-
+cleanse.secondPassCleanse("out.csv", "out2.csv", stopWords)
