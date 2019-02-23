@@ -1,16 +1,10 @@
 #New cleaning script
 import csv  #csv module
-import re   #Regex module
-from nltk.corpus import stopwords
 
 #Setting field size limit to 1mb, else we get field size to large error
 csv.field_size_limit(1000000) 
 
-
-
 #The set of stopwords, will be used to detect non-english articles and to remove stop words
-stopWords = set(stopwords.words("english"))
-print(stopWords)
 
 def firstPassCleanse(fileInn, fileOut, stopWords):
 
@@ -53,6 +47,8 @@ def firstPassCleanse(fileInn, fileOut, stopWords):
         #Write rows that pass tests to new cleaned csv
         dictWriter.writerow(row)
 
+    File.close()
+
 
 def secondPassCleanse(fileInn, fileOut, stopWords):
     
@@ -60,17 +56,30 @@ def secondPassCleanse(fileInn, fileOut, stopWords):
 
     #Initiate our file to a ordered dictionary
     dictReader = csv.DictReader(File)
-
+    
     #Opening up writer for spitting out new csv file
     dictWriter = csv.DictWriter(open(fileOut, "w", encoding="utf8"), fieldnames=["id","title","author","text","label"])
     dictWriter.writeheader()
     
     for row in dictReader:
         article = row["text"]
-        #print(article)
-        for char in article:
-            print(char)
+        #Seperate article to distinct words, returns a list of words
+        single_words = article.split(" ")
 
+        for word in single_words:
+            #Checking if word contains anything else than just pure letters, if its not just letters then remove it
+            is_alphabet = word.isalpha()
+            if is_alphabet == False:
+                article = article.replace(word, "")
+            #Checking for stopwords in the text and removing them
+            if word in stopWords:
+                article = article.replace(" " + word + " ", " ")
 
+        row["text"] = article
+        #print(article + "***************************************************************")
+        dictWriter.writerow(row)
+
+    File.close()
+        
 
         
