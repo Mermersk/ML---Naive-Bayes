@@ -35,7 +35,7 @@ def firstPassCleanse(fileInn, fileOut, stopWords):
             if spanish != -1:
                 break
 
-        #Unfortunately iy seems spanish and english share some stopwords, so I use another method for removing spanish articles by checking for "á"    
+        #Unfortunately it seems spanish and english share some stopwords, so I use another method for removing spanish articles by checking for "á"    
         if spanish != -1:
             continue
 

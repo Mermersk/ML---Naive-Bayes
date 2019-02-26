@@ -14,15 +14,18 @@ csv.field_size_limit(1000000)
 #The set of stopwords, will be used to detect non-english articles and to remove stop words
 stopWords = set(stopwords.words("english"))
 
-cleanse.firstPassCleanse("dataset/train.csv", "dataset/clean_train.csv", stopWords)
+#cleanse.firstPassCleanse("dataset/train.csv", "dataset/clean_train.csv", stopWords)
 
-cleanse.secondPassCleanse("dataset/clean_train.csv", "dataset/final_clean_train.csv", stopWords)
+#cleanse.secondPassCleanse("dataset/clean_train.csv", "dataset/final_clean_train.csv", stopWords)
 
 def createVocabulary():
 
     File = open("dataset/final_clean_train.csv", "r", encoding = "utf8")
     dictReader = csv.DictReader(File)
-
+    #Creating a new empty set. An set can not contain duplicates and is unordered
+    word_set = set()
+    word_set.add("fg")
+    print(len(word_set))
     vocab = open("Vocabulary.txt", "w", encoding = "utf8")
 
     for row in dictReader:
