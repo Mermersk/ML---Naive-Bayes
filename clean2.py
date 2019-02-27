@@ -1,6 +1,6 @@
 #New cleaning script
 import csv  #csv module
-
+import re
 #Setting field size limit to 1mb, else we get field size to large error
 csv.field_size_limit(1000000) 
 
@@ -39,9 +39,9 @@ def firstPassCleanse(fileInn, fileOut, stopWords):
         if spanish != -1:
             continue
 
-        #If there is less than 25 stopwords in the article it is probably not english,
+        #If there is less than 5 stopwords in the article it is probably not english,
         #I use the continue statement so that this article does not reach writerow function to our new csv
-        if stopword_counter <= 25:
+        if stopword_counter <= 5:
             continue
 
         #Write rows that pass tests to new cleaned csv
@@ -74,6 +74,13 @@ def secondPassCleanse(fileInn, fileOut, stopWords):
             #Checking for stopwords in the text and removing them
             if word in stopWords:
                 article = article.replace(" " + word + " ", " ")
+        """
+        Hopefully when we get here there are only words in article but no ".", ",", "-" and so on.
+        This regex matches matches with every non-english letter, So if the result is something else than None
+        it means that we got a hit, we dont want those articles so we skip them. The regex is the ASCI table
+        """
+        if re.search("[^\x00-\x7F…]", article) != None:
+            continue
 
         row["text"] = article
         #print(article + "***************************************************************")

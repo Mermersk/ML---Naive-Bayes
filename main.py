@@ -3,6 +3,7 @@ import csv
 import pandas
 import numpy
 import time
+import re
 import clean2 as cleanse #Cleaning script
 from nltk.corpus import stopwords
 
@@ -14,9 +15,9 @@ csv.field_size_limit(1000000)
 #The set of stopwords, will be used to detect non-english articles and to remove stop words
 stopWords = set(stopwords.words("english"))
 
-#cleanse.firstPassCleanse("dataset/train.csv", "dataset/clean_train.csv", stopWords)
+cleanse.firstPassCleanse("dataset/train.csv", "dataset/clean_train.csv", stopWords)
 
-#cleanse.secondPassCleanse("dataset/clean_train.csv", "dataset/final_clean_train.csv", stopWords)
+cleanse.secondPassCleanse("dataset/clean_train.csv", "dataset/final_clean_train.csv", stopWords)
 
 def createVocabulary():
 
@@ -24,8 +25,7 @@ def createVocabulary():
     dictReader = csv.DictReader(File)
     #Creating a new empty set. An set can not contain duplicates and is unordered
     word_set = set()
-    word_set.add("fg")
-    print(len(word_set))
+    #word_set.add("fg")
     vocab = open("Vocabulary.txt", "w", encoding = "utf8")
 
     for row in dictReader:
@@ -33,16 +33,21 @@ def createVocabulary():
         single_words = article.split(" ")
 
         for word in single_words:
-            if len(word) == 0:
+            stripped_word = word.strip()
+            if len(stripped_word) <= 1:
                 continue
             
-            if word.strip().isalpha() == False:
+            if stripped_word.isalpha() == False:
                 continue
 
-            #print(word.strip() + "\n")
-            vocab.write(word.strip() + "\n")
+            #print(stripped_word + "\n")
+            #vocab.write(stripped_word + "\n")
+            word_set.add(stripped_word)
+        #vocab.write("********************************" + "\n")
 
-        vocab.write("********************************" + "\n")
+    for word in word_set:
+        vocab.write(word + "\n")
+
 
     File.close()
     vocab.close()
