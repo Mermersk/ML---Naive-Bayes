@@ -1,4 +1,4 @@
-#Main pythin script. Author: Isak Steingrimsson
+#Main python script. Author: Isak Steingrimsson
 import csv
 import pandas
 import numpy
@@ -15,9 +15,9 @@ csv.field_size_limit(1000000)
 #The set of stopwords, will be used to detect non-english articles and to remove stop words
 stopWords = set(stopwords.words("english"))
 
-cleanse.firstPassCleanse("dataset/train.csv", "dataset/clean_train.csv", stopWords)
+#cleanse.firstPassCleanse("dataset/train.csv", "dataset/clean_train.csv", stopWords)
 
-cleanse.secondPassCleanse("dataset/clean_train.csv", "dataset/final_clean_train.csv", stopWords)
+#cleanse.secondPassCleanse("dataset/clean_train.csv", "dataset/final_clean_train.csv", stopWords)
 
 def createVocabulary():
 

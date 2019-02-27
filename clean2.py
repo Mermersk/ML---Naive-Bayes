@@ -16,7 +16,7 @@ def firstPassCleanse(fileInn, fileOut, stopWords):
     #Opening up writer for spitting out new csv file
     dictWriter = csv.DictWriter(open(fileOut, "w", encoding="utf8"), fieldnames=["id","title","author","text","label"])
     dictWriter.writeheader()
-
+    
     for row in dictReader:
         #article is a string of each text field
         article = row["text"]
