@@ -65,24 +65,40 @@ def secondPassCleanse(fileInn, fileOut, stopWords):
         article = row["text"]
         #Seperate article to distinct words, returns a list of words
         single_words = article.split(" ")
-
+        new_article = ""
+        
         for word in single_words:
-            #Checking if word contains anything else than just pure letters, if its not just letters then remove it
-            is_alphabet = word.isalpha()
-            if is_alphabet == False:
-                article = article.replace(word, "")
-            #Checking for stopwords in the text and removing them
-            if word in stopWords:
-                article = article.replace(" " + word + " ", " ")
+            
+            single_word = word
+            #Breaks every word into an individual letter, if it is something other than a letter we take it out.
+            for char in single_word:
+                #print(char)
+                is_alpha = char.isalpha()
+                if is_alpha == False:
+                    single_word = single_word.replace(char, " ")
+            #print(single_word)
+            #Put every word to lowercase
+            single_word = single_word.lower()
+            
+            #if word length is 0 or 1, then we continue since we dont want it
+            if len(single_word) <= 1:
+                continue
+
+
+            #Checking for stopwords in the text if current word is stopword we continue since we dont want it in the new article text
+            if single_word in stopWords:
+                continue
+            
+            new_article = new_article + single_word + " "
         """
         Hopefully when we get here there are only words in article but no ".", ",", "-" and so on.
         This regex matches matches with every non-english letter, So if the result is something else than None
-        it means that we got a hit, we dont want those articles so we skip them. The regex is the ASCI table
+        it means that we got a hit, we dont want those articles so we skip them. We only want English! The regex is the ASCI table
         """
-        if re.search("[^\x00-\x7F…]", article) != None:
+        if re.search("[^\x00-\x7F…]", new_article) != None:
             continue
-
-        row["text"] = article
+        #print(new_article)
+        row["text"] = new_article
         #print(article + "***************************************************************")
         dictWriter.writerow(row)
 

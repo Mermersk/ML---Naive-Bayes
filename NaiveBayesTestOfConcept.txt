@@ -1,0 +1,24 @@
+text,label
+sun is shining,0
+sun is not shining,1
+
+P(y=0) = 0.5
+P(y=1) = 0.5
+
+P(sun|y=0) = 0.5
+P(sun|y=1) = 0.5
+
+P(is|y=0) = 0.5
+P(is|y=1) = 0.5
+
+P(shining|y=0) = 0.5
+P(shining|y=1) = 0.5
+
+P(not|y=0) = 0
+P(not|y=1) = 1
+
+"sun i shining"
+
+P(y=1|"sun is shining") = 0.5 * 0.5 * 0.5 * 0.5 / (0.5 * 0.5 * 0.5 * 0.5) + (0.5 * 0.5 * 0.5* 0.5) = 1/2
+
+P(y=1|"sun is not shining") = 0.5 * 0.5 * 1 * 0.5 * 0.5 / (0.5 * 0.5 * 1 * 0.5 * 0.5) + (0) = 1
