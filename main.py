@@ -145,8 +145,10 @@ def countWords(csvPath, vocabularyPath):
             wordsCount[c][w] += 1
             if c == 0:
                 wordsCount[2][w] += len(articleWords)
+                print(w + "  " + str(wordsCount[2][w]))
             if c == 1:
                 wordsCount[3][w] += len(articleWords) 
+                print(w + "  " + str(wordsCount[3][w]))
             #wordsTotal is how often w word appears in all of the dataset, key = string, value = int
             wordsTotal[w] += 1
     debugword = "multinational"
@@ -155,7 +157,7 @@ def countWords(csvPath, vocabularyPath):
     
     return wordsCount, vocabSet
 
-#wordsCount, vocabSet = countWords(csvFile, vocabularyFile)
+wordsCount, vocabSet = countWords(csvFile, vocabularyFile)
 #print(len(wordsCount[3])) 
 
 def createVocabularyWithProbabilities(wordsCount, vocabSet):
